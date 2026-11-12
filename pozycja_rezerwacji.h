@@ -2,14 +2,14 @@
 #define POZYCJA_REZERWACJI_H
 
 class PozycjaRezerwacji {
-private:
-    int nrPokoju;
-
 public:
-    PozycjaRezerwacji(int nrPokoju);
-    ~PozycjaRezerwacji() = default;
+    explicit PozycjaRezerwacji(int nr_pokoju);
+    ~PozycjaRezerwacji();
 
     int getNrPokoju() const;
+
+private:
+    int nr_pokoju_;
 };
 
 #endif
