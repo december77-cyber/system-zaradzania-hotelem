@@ -6,10 +6,10 @@ private:
     int nrPokoju;
 
 public:
-    PozycjaRezerwacji(int nrPokoju) : nrPokoju(nrPokoju) {}
+    PozycjaRezerwacji(int nrPokoju);
     ~PozycjaRezerwacji() = default;
 
-    int getNrPokoju() const { return nrPokoju; }
+    int getNrPokoju() const;
 };
 
 #endif

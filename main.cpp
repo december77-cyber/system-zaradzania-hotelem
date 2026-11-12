@@ -1,10 +1,12 @@
 #include <iostream>
+#include <vector>
 #include "system_zarzadzania_hotelem.h"
 #include "usluga_dodatkowa.h"
+#include "faktura.h"
 
 int main() {
-    // Wymóg: Standard C++17 oraz czytelna demonstracja scenariuszy
-    std::cout << "   DEMONSTRACJA USER STORIES - SYSTEM HOTELOWY    \n";
+    std::cout << "DEMONSTRACJA USER STORIES - SYSTEM HOTELOWY\n";
+    std::cout << "===========================================\n\n";
 
     // Utworzenie głównego obiektu zarządzającego systemem
     SystemZarzadzaniaHotelem hotel;
@@ -32,7 +34,6 @@ int main() {
     std::cout << "\n";
 
     // --- SCENARIUSZ 5: Zameldowanie gościa (Zarządcza / Administracyjna) ---
-    // (Tworzymy nową rezerwację do celów demonstracji zameldowania i wymeldowania)
     hotel.zarezerwuj(2, 102);
     std::cout << "\n[5] Zameldowanie gościa na podstawie numeru rezerwacji:\n";
     hotel.zamelduj(2);
@@ -41,9 +42,19 @@ int main() {
     // --- SCENARIUSZ 6: Wymeldowanie gościa i faktura końcowa (Logika biznesowa) ---
     std::cout << "[6] Wymeldowanie gościa i generowanie faktury końcowej:\n";
     hotel.wymelduj(2);
-    std::cout << "\n";
 
-    std::cout << "   WSZYSTKIE SCENARIUSZE ZOSTALY ZDEMONSTROWANE   \n";
+    // Bezpośrednia demonstracja logiki biznesowej klasy Faktura:
+    std::vector<UslugaDodatkowa> zamowioneUslugi;
+    zamowioneUslugi.emplace_back("Sniadanie kontynentalne", 45.0f);
+    zamowioneUslugi.emplace_back("Dostep do SPA", 120.0f);
+    zamowioneUslugi.emplace_back("Parking", 30.0f);
+
+    Faktura faktura("PL5252525252", 2);
+    // 4 doby po 180 PLN + usługi
+    faktura.oblicz_naleznosc(4, 180.0f, zamowioneUslugi);
+    std::cout << "--------------------------------------------------\n\n";
+
+    std::cout << "WSZYSTKIE SCENARIUSZE ZOSTALY ZDEMONSTROWANE\n";
 
     return 0;
 }

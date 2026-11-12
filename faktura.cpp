@@ -1,24 +1,41 @@
 #include "faktura.h"
 #include <iostream>
+#include <iomanip>
 
-Faktura::Faktura(const std::string& nip, int id_rezerwacji)
-    : NIP(nip), id_rezerwacji(id_rezerwacji) {}
+Faktura::Faktura(const std::string& nip, int idRezerwacji)
+    : nipKlienta(nip), idRezerwacji(idRezerwacji), kwotaCalkowita(0.0f) {}
 
-float Faktura::oblicz_naleznosc(int dataPoczatku, int dataKonca, float stawkaZaDobe, const std::vector<UslugaDodatkowa>& dodatkoweUslugi) const {
-    int liczbaDob = dataKonca - dataPoczatku;
-    if (liczbaDob <= 0) {
-        liczbaDob = 1;
+float Faktura::oblicz_naleznosc(int liczbaDni, float stawkaZaDobe, const std::vector<UslugaDodatkowa>& uslugi) {
+    float kosztPokoju = liczbaDni * stawkaZaDobe;
+    float kosztUslug = 0.0f;
+
+    std::cout << "\n--- [LOGIKA BIZNESOWA: OBLICZANIE FAKTURY] ---\n";
+    std::cout << "Faktura dla rezerwacji ID: " << idRezerwacji << " | NIP: " << nipKlienta << "\n";
+    std::cout << "Pobyt: " << liczbaDni << " dni x " << stawkaZaDobe << " PLN = " << kosztPokoju << " PLN\n";
+
+    if (!uslugi.empty()) {
+        std::cout << "Uslugi dodatkowe:\n";
+        for (const auto& u : uslugi) {
+            std::cout << "  - " << u.getTypUslugi() << ": " << u.getCena() << " PLN\n";
+            kosztUslug += u.getCena();
+        }
+    } else {
+        std::cout << "Brak zamowionych uslug dodatkowych.\n";
     }
 
-    float naleznosc = liczbaDob * stawkaZaDobe;
+    kwotaCalkowita = kosztPokoju + kosztUslug;
+    std::cout << "SUMA DO ZAPLATY: " << std::fixed << std::setprecision(2) << kwotaCalkowita << " PLN\n";
+    std::cout << "---------------------------------------------\n\n";
 
-    for (const auto& usluga : dodatkoweUslugi) {
-        naleznosc += usluga.getCena(); // suma cen usług dodatkowych
-    }
+    return kwotaCalkowita;
+}
 
-    std::cout << "Faktura dla rezerwacji ID: " << id_rezerwacji
-              << " | NIP: " << NIP
-              << " | Naleznosc: " << naleznosc << " PLN\n";
+void Faktura::wyswietlFakture() const {
+    std::cout << "[Faktura] NIP: " << nipKlienta 
+              << " | Rezerwacja: " << idRezerwacji 
+              << " | Kwota: " << kwotaCalkowita << " PLN\n";
+}
 
-    return naleznosc;
+float Faktura::getKwotaCalkowita() const {
+    return kwotaCalkowita;
 }

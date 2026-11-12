@@ -7,14 +7,17 @@
 
 class Faktura {
 private:
-    std::string NIP;
-    int id_rezerwacji;
+    std::string nipKlienta;
+    int idRezerwacji;
+    float kwotaCalkowita;
 
 public:
-    Faktura(const std::string& nip, int id_rezerwacji);
+    Faktura(const std::string& nip, int idRezerwacji);
     ~Faktura() = default;
 
-    float oblicz_naleznosc(int dataPoczatku, int dataKonca, float stawkaZaDobe, const std::vector<UslugaDodatkowa>& dodatkoweUslugi) const;
+    float oblicz_naleznosc(int liczbaDni, float stawkaZaDobe, const std::vector<UslugaDodatkowa>& uslugi);
+    void wyswietlFakture() const;
+    float getKwotaCalkowita() const;
 };
 
 #endif

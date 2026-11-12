@@ -1,0 +1,17 @@
+hotel
+**/hotel
+*.exe
+*.out
+*.app
+
+*.dSYM/
+*.o
+*.obj
+
+.vscode/
+**/.vscode/
+
+.DS_Store
+.AppleDouble
+.LSOverride
+._*$

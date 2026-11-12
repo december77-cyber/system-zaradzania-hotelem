@@ -26,7 +26,7 @@ public:
     void wymelduj(int id_rezerwacji);
     void zamelduj(int id_rezerwacji);
     void sprawdz_dostepnosc(const std::string& data_poczatku, const std::string& data_konca);
-    void nalicz_oplate_manipulacyjna(int id_goscia, int id_recepjonisty, float kwota);
+    float nalicz_oplate_manipulacyjna(int id_goscia, int id_recepjonisty, float kwota);
     void anuluj_rezerwacje(int id_rezerwacji);
 };
 
