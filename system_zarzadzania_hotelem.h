@@ -1,33 +1,53 @@
 #ifndef SYSTEM_ZARZADZANIA_HOTELEM_H
 #define SYSTEM_ZARZADZANIA_HOTELEM_H
 
-#include <vector>
+#include <memory>
 #include <string>
-#include "gosc.h"
-#include "recepcjonista.h"
-#include "pokoj.h"
-#include "rezerwacja.h"
+#include <vector>
 #include "faktura.h"
+#include "gosc.h"
+#include "osoba.h"
+#include "pokoj.h"
+#include "recepcjonista.h"
+#include "rezerwacja.h"
+#include "usluga_dodatkowa.h"
 
 class SystemZarzadzaniaHotelem {
-private:
-    std::vector<Gosc> listaGosci;
-    std::vector<Recepcjonista> listaRecepcjonistow;
-    std::vector<Pokoj> katalogPokoi;
-    std::vector<Rezerwacja> aktywneRezerwacje;
-
 public:
-    SystemZarzadzaniaHotelem() = default;
-    ~SystemZarzadzaniaHotelem() = default;
+    SystemZarzadzaniaHotelem();
+    ~SystemZarzadzaniaHotelem();
 
-    // Metody z Diagramu Klas:
-    void zarezerwuj(int id_goscia, int id_pokoju);
+    bool zarezerwuj(int id_goscia, int id_pokoju,
+                    const std::string& data_poczatku = "2026-07-01",
+                    const std::string& data_konca = "2026-07-05");
     void dodaj_pokoj(int id_pokoju, int liczba_lozek);
-    void wymelduj(int id_rezerwacji);
+    void wymelduj(int id_rezerwacji,
+                  const std::string& nip = "PL5252525252");
     void zamelduj(int id_rezerwacji);
-    void sprawdz_dostepnosc(const std::string& data_poczatku, const std::string& data_konca);
-    float nalicz_oplate_manipulacyjna(int id_goscia, int id_recepjonisty, float kwota);
+    std::vector<int> sprawdz_dostepnosc(
+        const std::string& data_poczatku,
+        const std::string& data_konca) const;
+    float nalicz_oplate_manipulacyjna(int id_goscia,
+                                      int id_recepcjonisty,
+                                      float kwota);
     void anuluj_rezerwacje(int id_rezerwacji);
+
+    void dodajUslugeDoRezerwacji(int id_rezerwacji,
+                                 const UslugaDodatkowa& usluga);
+    void wyswietlUzytkownikowPolimorficznie() const;
+
+private:
+    Pokoj* znajdzPokoj(int nr_pokoju);
+    const Pokoj* znajdzPokoj(int nr_pokoju) const;
+    Rezerwacja* znajdzRezerwacje(int id_rezerwacji);
+    Gosc* znajdzGoscia(int id_goscia);
+    Recepcjonista* znajdzRecepcjoniste(int id_recepcjonisty);
+
+    std::vector<Gosc> lista_gosci_;
+    std::vector<Recepcjonista> lista_recepcjonistow_;
+    std::vector<Pokoj> katalog_pokoi_;
+    std::vector<Rezerwacja> aktywne_rezerwacje_;
+    int nastepne_id_rezerwacji_;
 };
 
 #endif

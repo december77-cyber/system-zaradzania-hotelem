@@ -1,19 +1,19 @@
-#ifndef USLUGADODATKOWA_H
-#define USLUGADODATKOWA_H
+#ifndef USLUGA_DODATKOWA_H
+#define USLUGA_DODATKOWA_H
 
 #include <string>
 
 class UslugaDodatkowa {
-private:
-    std::string typUslugi;
-    float cena;
-
 public:
-    UslugaDodatkowa(const std::string& typUslugi, float cena);
-    ~UslugaDodatkowa() = default;
+    UslugaDodatkowa(const std::string& typ_uslugi, float cena);
+    ~UslugaDodatkowa();
 
     std::string getTypUslugi() const;
     float getCena() const;
+
+private:
+    std::string typ_uslugi_;
+    float cena_;
 };
 
 #endif

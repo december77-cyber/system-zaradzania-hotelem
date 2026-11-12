@@ -2,25 +2,30 @@
 #define POKOJ_H
 
 #include <string>
+#include <utility>
+#include <vector>
 
 class Pokoj {
-private:
-    // Pola wymagane 1:1 przez Diagram Klas:
-    int nrPokoju;
-    int iloscLozek;
-    float stawkaZaDobe;
-
 public:
-    Pokoj(int nrPokoju, int iloscLozek, float stawkaZaDobe);
-    ~Pokoj() = default;
+    Pokoj(int nr_pokoju, int ilosc_lozek, float stawka_za_dobe);
+    ~Pokoj();
 
-    // Metoda wymagana przez Diagram Klas oraz Diagram Sekwencji:
-    bool czy_dostepny(const std::string& dataPoczatku, const std::string& dataKonca) const;
+    bool czy_dostepny(const std::string& data_poczatku,
+                      const std::string& data_konca) const;
+    void zablokujTermin(const std::string& data_poczatku,
+                        const std::string& data_konca);
+    void zwolnijTermin(const std::string& data_poczatku,
+                       const std::string& data_konca);
 
-    // Gettery potrzebne dla SystemZarzadzaniaHotelem i Faktura:
     int getNrPokoju() const;
     int getIloscLozek() const;
     float getStawkaZaDobe() const;
+
+private:
+    int nr_pokoju_;
+    int ilosc_lozek_;
+    float stawka_za_dobe_;
+    std::vector<std::pair<std::string, std::string>> zarezerwowane_terminy_;
 };
 
 #endif
