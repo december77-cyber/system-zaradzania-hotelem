@@ -142,6 +142,19 @@ void SystemZarzadzaniaHotelem::anuluj_rezerwacje(int id_rezerwacji) {
         return;
     }
 
+    if (rezerwacja->getStanRezerwacji() == "anulowana") {
+        std::cout << "  [Blad] Rezerwacja ID: " << id_rezerwacji
+                  << " zostala juz wczesniej anulowana.\n";
+        return;
+    }
+
+    if (rezerwacja->getStanRezerwacji() != "zlozona") {
+        std::cout << "  [Blad] Nie mozna anulowac rezerwacji ID: "
+                  << id_rezerwacji << " (aktualny stan: "
+                  << rezerwacja->getStanRezerwacji() << ").\n";
+        return;
+    }
+
     Pokoj* pokoj = znajdzPokoj(rezerwacja->getNrPokoju());
     if (pokoj != nullptr) {
         pokoj->zwolnijTermin(rezerwacja->getDataPoczatku(),
